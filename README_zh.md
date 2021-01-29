@@ -1,10 +1,10 @@
 # Luckyshare
 
-Luckyshare区块链，让每个人都可以制作智能合约或dApp.
+Luckyshare区块链，让每个人都可以有ticket制作智能合约或dApp.
 
-这是用golang编写的第一个实现，现在是v0.01版.
+这是用golang编写的第一个实现，现在是v0.01版，暂时还不能用.
 
-Luckyshare的目标是我为人人，人人为我--共享.
+Luckyshare的目标是我为人人，人人为我----也就是*共享*.
 
 因此，谁要在luckyshare上制作智能合约或dApp，谁就要长时间运行一个luckyshare节点，云节点或者nat节点都可以。
 

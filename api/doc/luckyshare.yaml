@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Thorest
   description: |
-    RESTful API to access VeChain Thor Network
+    RESTful API to access Luckyshare Network
 
     [Project Home](https://github.com/miniBamboo/luckyshare)
   license:

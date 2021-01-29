@@ -176,7 +176,7 @@ func (s *Server) listenDiscV5() (err error) {
 	realaddr := conn.LocalAddr().(*net.UDPAddr)
 	if s.opts.NAT != nil {
 		if !realaddr.IP.IsLoopback() {
-			s.goes.Go(func() { nat.Map(s.opts.NAT, s.done, "udp", realaddr.Port, realaddr.Port, "vechain discovery") })
+			s.goes.Go(func() { nat.Map(s.opts.NAT, s.done, "udp", realaddr.Port, realaddr.Port, "luckyshare discovery") })
 		}
 		// TODO: react to external IP changes over time.
 		if ext, err := s.opts.NAT.ExternalIP(); err == nil {

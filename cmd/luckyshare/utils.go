@@ -93,7 +93,7 @@ func defaultDataDir() string {
 	// Try to place the data folder in the user's home dir
 	if home := homeDir(); home != "" {
 		if runtime.GOOS == "darwin" {
-			return filepath.Join(home, "Library", "Application Support", "org.vechain.luckyshare")
+			return filepath.Join(home, "Library", "Application Support", "link.luckyshare.chain")
 		} else if runtime.GOOS == "windows" {
 			return filepath.Join(home, "AppData", "Roaming", "link.luckyshared.luckyshare")
 		} else {

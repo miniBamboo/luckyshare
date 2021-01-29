@@ -57,8 +57,8 @@ func main() {
 	app := cli.App{
 		Version:   fullVersion(),
 		Name:      "Thor",
-		Usage:     "Node of VeChain Thor Network",
-		Copyright: "2018 VeChain Foundation <https://vechain.org/>",
+		Usage:     "Node of Luckyshare Network",
+		Copyright: "2021 Luckyshare Foundation <https://luckyshare.link/>",
 		Flags: []cli.Flag{
 			networkFlag,
 			configDirFlag,

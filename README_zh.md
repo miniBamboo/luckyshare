@@ -8,7 +8,7 @@ Luckyshare的目标是我为人人，人人为我----也就是*共享*.
 
 因此，谁要在luckyshare上制作智能合约或dApp，谁就要长时间运行一个luckyshare节点，云节点或者nat节点都可以。
 
-ILuckyshare区块链与以太坊的生态系统兼容。.
+Luckyshare区块链与以太坊的生态系统兼容。.
 
 [](https://golang.org)
 

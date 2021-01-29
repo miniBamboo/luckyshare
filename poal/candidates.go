@@ -1,4 +1,4 @@
-package poa
+package poal
 
 import (
 	"github.com/miniBamboo/luckyshare/builtin"
@@ -7,7 +7,7 @@ import (
 	"github.com/miniBamboo/luckyshare/state"
 )
 
-// Candidates holds candidates list in memory, and tends to be reused in PoA stage without querying from contract.
+// Candidates holds candidates list in memory, and tends to be reused in PoAL stage without querying from contract.
 type Candidates struct {
 	list       []*authority.Candidate
 	masters    map[luckyshare.Address]int  // map master address to list index

@@ -11,7 +11,7 @@ import (
 	"github.com/miniBamboo/luckyshare/block"
 	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/luckyshare"
-	"github.com/miniBamboo/luckyshare/poa"
+	"github.com/miniBamboo/luckyshare/poal"
 	"github.com/miniBamboo/luckyshare/runtime"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
@@ -115,22 +115,22 @@ func (c *Consensus) validateBlockHeader(header *block.Header, parent *block.Head
 	return nil
 }
 
-func (c *Consensus) validateProposer(header *block.Header, parent *block.Header, st *state.State) (*poa.Candidates, error) {
+func (c *Consensus) validateProposer(header *block.Header, parent *block.Header, st *state.State) (*poal.Candidates, error) {
 	signer, err := header.Signer()
 	if err != nil {
 		return nil, consensusError(fmt.Sprintf("block signer unavailable: %v", err))
 	}
 
 	authority := builtin.Authority.Native(st)
-	var candidates *poa.Candidates
+	var candidates *poal.Candidates
 	if entry, ok := c.candidatesCache.Get(parent.ID()); ok {
-		candidates = entry.(*poa.Candidates).Copy()
+		candidates = entry.(*poal.Candidates).Copy()
 	} else {
 		list, err := authority.AllCandidates()
 		if err != nil {
 			return nil, err
 		}
-		candidates = poa.NewCandidates(list)
+		candidates = poal.NewCandidates(list)
 	}
 
 	proposers, err := candidates.Pick(st)
@@ -138,7 +138,7 @@ func (c *Consensus) validateProposer(header *block.Header, parent *block.Header,
 		return nil, err
 	}
 
-	sched, err := poa.NewScheduler(signer, proposers, parent.Number(), parent.Timestamp())
+	sched, err := poal.NewScheduler(signer, proposers, parent.Number(), parent.Timestamp())
 	if err != nil {
 		return nil, consensusError(fmt.Sprintf("block signer invalid: %v %v", signer, err))
 	}

@@ -2,7 +2,7 @@
 
 A blockchain of luckyshare for everybody to make smart contracts or dApp.
 
-This is the first implementation written in golang, now V0.01.
+This is the first implementation written in golang, now v0.01.
 
 The goal is one for all, all for one--share.
 

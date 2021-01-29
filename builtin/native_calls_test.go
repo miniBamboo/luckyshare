@@ -402,7 +402,7 @@ func TestEnergyNative(t *testing.T) {
 	}
 
 	test.Case("name").
-		ShouldOutput("VeThor").
+		ShouldOutput("Luckyshare").
 		Assert(t)
 
 	test.Case("decimals").

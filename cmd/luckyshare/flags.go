@@ -32,7 +32,7 @@ var (
 	}
 	apiAddrFlag = cli.StringFlag{
 		Name:  "api-addr",
-		Value: "localhost:8669",
+		Value: "localhost:51991",
 		Usage: "API service listening address",
 	}
 	apiCorsFlag = cli.StringFlag{

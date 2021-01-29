@@ -2,15 +2,15 @@
 
 A blockchain of luckyshare for everybody to make smart contracts or dApp.
 
-This is the first implementation written in golang V0.01.
+This is the first implementation written in golang, now V0.01.
 
 The goal is one for all, all for one--share.
 
-So Who want to make smart contracts or dApp on luckyshare then He or She should running a luckyshare node.
+So Somebody want to make smart contracts or dApp on luckyshare then who should running a luckyshare node.
 
 It's compatible with Ethereum's ecosystem.
 
-[![Go](https://img.shields.io/badge/golang-%3E%3D1.13-orange.svg)](https://golang.org)
+[](https://golang.org)
 
 
 ## Table of contents
@@ -101,7 +101,7 @@ bin/luckyshare -h
 - `--cache value`               megabytes of ram allocated to internal caching (default: 2048)
 - `--beneficiary value`         address for block rewards
 - `--target-gas-limit value`    target block gas limit (adaptive if set to 0) (default: 0)
-- `--api-addr value`            API service listening address (default: "localhost:8669")
+- `--api-addr value`            API service listening address (default: "localhost:51991")
 - `--api-cors value`            comma separated list of domains from which to accept cross origin requests to API
 - `--api-timeout value`         API request timeout value in milliseconds (default: 10000)
 - `--api-call-gas-limit value`  limit contract call gas (default: 50000000)
@@ -148,11 +148,11 @@ Docker is one quick way for running a Luckyshare node:
 ```
 docker run -d\
   -v {path-to-your-data-directory}/.link.luckyshare.chain:/root/.link.luckyshare.chain\
-  -p 127.0.0.1:8669:8669 -p 11235:11235 -p 11235:11235/udp\
+  -p 127.0.0.1:51991:51991 -p 11235:11235 -p 11235:11235/udp\
   --name luckyshare-node miniBamboo/luckyshare --network test
 ```
 
-Do not forget to add the `--api-addr 0.0.0.0:8669` flag if you want other containers and/or hosts to have access to the RESTful API. `luckyshare`binds to `localhost` by default and it will not accept requests outside the container itself without the flag.
+Do not forget to add the `--api-addr 0.0.0.0:51991` flag if you want other containers and/or hosts to have access to the RESTful API. `luckyshare`binds to `localhost` by default and it will not accept requests outside the container itself without the flag.
 
 
 
@@ -160,7 +160,7 @@ Do not forget to add the `--api-addr 0.0.0.0:8669` flag if you want other contai
 
 ## API
 
-Once `luckyshare` started, online *OpenAPI* doc can be accessed in your browser. e.g. http://localhost:8669/ by default.
+Once `luckyshare` started, online *OpenAPI* doc can be accessed in your browser. e.g. http://localhost:51991/ by default.
 
 
 

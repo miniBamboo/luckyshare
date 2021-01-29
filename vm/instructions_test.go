@@ -485,7 +485,7 @@ func TestCreate2Addreses(t *testing.T) {
 		salt := common.BytesToHash(common.FromHex(tt.salt))
 		code := common.FromHex(tt.code)
 		codeHash := crypto.Keccak256(code)
-		// THOR: Cannot use crypto.CreateAddress2 function.
+		// SHARE: Cannot use crypto.CreateAddress2 function.
 		// v1.8.14 -> v1.8.27 depedency issue. See patch.go file.
 		address := CreateAddress2(origin, salt, codeHash)
 		/*

@@ -10,7 +10,7 @@ import (
 	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/chain"
 	"github.com/miniBamboo/luckyshare/luckyshare"
-	"github.com/miniBamboo/luckyshare/poa"
+	"github.com/miniBamboo/luckyshare/poal"
 	"github.com/miniBamboo/luckyshare/runtime"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
@@ -76,7 +76,7 @@ func (p *Packer) Schedule(parent *block.Header, nowTimestamp uint64) (flow *Flow
 		return nil, err
 	}
 	var (
-		proposers   = make([]poa.Proposer, 0, len(candidates))
+		proposers   = make([]poal.Proposer, 0, len(candidates))
 		beneficiary luckyshare.Address
 	)
 	if p.beneficiary != nil {
@@ -88,14 +88,14 @@ func (p *Packer) Schedule(parent *block.Header, nowTimestamp uint64) (flow *Flow
 			// no beneficiary not set, set it to endorsor
 			beneficiary = c.Endorsor
 		}
-		proposers = append(proposers, poa.Proposer{
+		proposers = append(proposers, poal.Proposer{
 			Address: c.NodeMaster,
 			Active:  c.Active,
 		})
 	}
 
 	// calc the time when it's turn to produce block
-	sched, err := poa.NewScheduler(p.nodeMaster, proposers, parent.Number(), parent.Timestamp())
+	sched, err := poal.NewScheduler(p.nodeMaster, proposers, parent.Number(), parent.Timestamp())
 	if err != nil {
 		return nil, err
 	}
@@ -126,7 +126,7 @@ func (p *Packer) Schedule(parent *block.Header, nowTimestamp uint64) (flow *Flow
 }
 
 // Mock create a packing flow upon given parent, but with a designated timestamp.
-// It will skip the PoA verification and scheduling, and the block produced by
+// It will skip the PoAL verification and scheduling, and the block produced by
 // the returned flow is not in consensus.
 func (p *Packer) Mock(parent *block.Header, targetTime uint64, gasLimit uint64) (*Flow, error) {
 	state := p.stater.NewState(parent.StateRoot())

@@ -1,5 +1,5 @@
 # Blockchain of luckyshare 
 ### A blockchain of luckyshare for everybody to make smart contracts or dApp. 
-### The goal is one for all, all for one.
+### The goal is one for all, all for one--share.
 ### So Who want to make smart contracts or dApp then He or She should running a node of luckyshare.
 ### It's compatible with Ethereum's ecosystem.

@@ -6,7 +6,7 @@ This is the first implementation written in golang, now version 0.01, cann't be 
 
 The goal is one for all, all for one--this means *share*.
 
-So Somebody want to make smart contracts or dApp on luckyshare then who should running a luckyshare node for a longtime. The node can be a nat node.
+So Someone want to make smart contracts or dApp on luckyshare blockchain, then who should running a luckyshare node for a longtime. The node can be a nat node.
 
 It's compatible with Ethereum's ecosystem.
 

@@ -13,7 +13,7 @@ import (
 	"github.com/miniBamboo/luckyshare/muxdb"
 )
 
-// Account is the Thor consensus representation of an account.
+// Account is the Luckyshare consensus representation of an account.
 // RLP encoded objects are stored in main account trie.
 type Account struct {
 	Balance     *big.Int

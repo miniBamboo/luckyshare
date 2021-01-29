@@ -532,7 +532,7 @@ func printStartupMessage1(
     Beneficiary  [ %v ]
     Instance dir [ %v ]
 `,
-		common.MakeName("Thor", fullVersion()),
+		common.MakeName("Luckyshare", fullVersion()),
 		gene.ID(), gene.Name(),
 		bestBlock.Header().ID(), bestBlock.Header().Number(), time.Unix(int64(bestBlock.Header().Timestamp()), 0),
 		forkConfig,
@@ -593,7 +593,7 @@ func printSoloStartupMessage(
     Forks       [ %v ]
     Data dir    [ %v ]
     API portal  [ %v ]`,
-		common.MakeName("Thor solo", fullVersion()),
+		common.MakeName("Luckyshare solo", fullVersion()),
 		gene.ID(), gene.Name(),
 		bestBlock.Header().ID(), bestBlock.Header().Number(), time.Unix(int64(bestBlock.Header().Timestamp()), 0),
 		forkConfig,

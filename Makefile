@@ -15,7 +15,7 @@ export GO111MODULE=on
 
 luckyshare:| go_version_check
 	@echo "building $@..."
-	@go build -v -i -o $(CURDIR)/bin/$@ -ldflags "-X main.version=$(THOR_VERSION) -X main.gitCommit=$(GIT_COMMIT) -X main.gitTag=$(GIT_TAG)" ./cmd/luckyshare
+	@go build -v -i -o $(CURDIR)/bin/$@ -ldflags "-X main.version=$(LUCKYSHARE_VERSION) -X main.gitCommit=$(GIT_COMMIT) -X main.gitTag=$(GIT_TAG)" ./cmd/luckyshare
 	@echo "done. executable created at 'bin/$@'"
 
 bootnode:| go_version_check

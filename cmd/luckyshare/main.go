@@ -56,7 +56,7 @@ func fullVersion() string {
 func main() {
 	app := cli.App{
 		Version:   fullVersion(),
-		Name:      "Thor",
+		Name:      "Luckyshare",
 		Usage:     "Node of Luckyshare Network",
 		Copyright: "2021 Luckyshare Foundation <https://luckyshare.link/>",
 		Flags: []cli.Flag{

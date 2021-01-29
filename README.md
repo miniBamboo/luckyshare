@@ -4,9 +4,9 @@ A blockchain of luckyshare for everybody to make smart contracts or dApp.
 
 This is the first implementation written in golang, now version 0.01, cann't be used now.
 
-The goal is one for all, all for one--this means *share*.
+The goal is all for one and one for all--this means *share*.
 
-So Someone want to make smart contracts or dApp on luckyshare blockchain, then who should running a luckyshare node for a longtime. The node can be a nat node.
+So who want to make smart contracts or dApp on luckyshare blockchain, then who should running a luckyshare node for a longtime. The node can be a nat node.
 
 It's compatible with Ethereum's ecosystem.
 

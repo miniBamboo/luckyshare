@@ -19,8 +19,8 @@ import (
 	"github.com/ethereum/go-ethereum/crypto/secp256k1"
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/miniBamboo/luckyshare/comm/metric"
 	"github.com/miniBamboo/luckyshare/luckyshare"
-	"github.com/miniBamboo/luckyshare/metric"
 )
 
 var (

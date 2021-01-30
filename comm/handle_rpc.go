@@ -12,9 +12,9 @@ import (
 	"github.com/ethereum/go-ethereum/p2p"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/miniBamboo/luckyshare/block"
+	"github.com/miniBamboo/luckyshare/comm/metric"
 	"github.com/miniBamboo/luckyshare/comm/proto"
 	"github.com/miniBamboo/luckyshare/luckyshare"
-	"github.com/miniBamboo/luckyshare/metric"
 	"github.com/miniBamboo/luckyshare/tx"
 	"github.com/pkg/errors"
 )

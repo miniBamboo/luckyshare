@@ -10,8 +10,8 @@ import (
 
 	"github.com/miniBamboo/luckyshare/block"
 	"github.com/miniBamboo/luckyshare/builtin"
+	"github.com/miniBamboo/luckyshare/consensus/poal"
 	"github.com/miniBamboo/luckyshare/luckyshare"
-	"github.com/miniBamboo/luckyshare/poal"
 	"github.com/miniBamboo/luckyshare/runtime"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"

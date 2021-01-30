@@ -10,8 +10,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/miniBamboo/luckyshare/block"
-	"github.com/miniBamboo/luckyshare/kv"
 	"github.com/miniBamboo/luckyshare/luckyshare"
+	"github.com/miniBamboo/luckyshare/muxdb/kv"
 	"github.com/miniBamboo/luckyshare/tx"
 )
 

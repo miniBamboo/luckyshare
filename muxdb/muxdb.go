@@ -10,8 +10,8 @@ package muxdb
 import (
 	"io"
 
-	"github.com/miniBamboo/luckyshare/kv"
 	"github.com/miniBamboo/luckyshare/luckyshare"
+	"github.com/miniBamboo/luckyshare/muxdb/kv"
 	"github.com/syndtr/goleveldb/leveldb"
 	dberrors "github.com/syndtr/goleveldb/leveldb/errors"
 	"github.com/syndtr/goleveldb/leveldb/filter"

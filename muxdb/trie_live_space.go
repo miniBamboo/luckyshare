@@ -9,7 +9,7 @@ import (
 	"errors"
 	"sync/atomic"
 
-	"github.com/miniBamboo/luckyshare/kv"
+	"github.com/miniBamboo/luckyshare/muxdb/kv"
 )
 
 const trieLiveSpaceKey = "trie-live-space"

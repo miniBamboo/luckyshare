@@ -8,8 +8,8 @@ package muxdb
 import (
 	"context"
 
-	"github.com/miniBamboo/luckyshare/kv"
 	"github.com/miniBamboo/luckyshare/luckyshare"
+	"github.com/miniBamboo/luckyshare/muxdb/kv"
 	"github.com/miniBamboo/luckyshare/trie"
 	"github.com/syndtr/goleveldb/leveldb/util"
 )

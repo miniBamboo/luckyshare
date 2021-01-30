@@ -10,9 +10,9 @@ import (
 
 	"github.com/miniBamboo/luckyshare/block"
 	"github.com/miniBamboo/luckyshare/comm/co"
-	"github.com/miniBamboo/luckyshare/kv"
 	"github.com/miniBamboo/luckyshare/luckyshare"
 	"github.com/miniBamboo/luckyshare/muxdb"
+	"github.com/miniBamboo/luckyshare/muxdb/kv"
 	"github.com/miniBamboo/luckyshare/tx"
 	"github.com/pkg/errors"
 )

@@ -16,7 +16,7 @@ import (
 	"github.com/ethereum/go-ethereum/p2p/nat"
 	"github.com/inconshreveable/log15"
 	"github.com/miniBamboo/luckyshare/cache"
-	"github.com/miniBamboo/luckyshare/co"
+	"github.com/miniBamboo/luckyshare/comm/co"
 	"github.com/miniBamboo/luckyshare/p2psrv/discv5"
 )
 

@@ -14,7 +14,7 @@ import (
 	"github.com/inconshreveable/log15"
 	"github.com/miniBamboo/luckyshare/block"
 	"github.com/miniBamboo/luckyshare/chain"
-	"github.com/miniBamboo/luckyshare/co"
+	"github.com/miniBamboo/luckyshare/comm/co"
 	"github.com/miniBamboo/luckyshare/luckyshare"
 	"github.com/miniBamboo/luckyshare/muxdb"
 	"github.com/miniBamboo/luckyshare/state"

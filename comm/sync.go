@@ -11,7 +11,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/miniBamboo/luckyshare/block"
-	"github.com/miniBamboo/luckyshare/co"
+	"github.com/miniBamboo/luckyshare/comm/co"
 	"github.com/miniBamboo/luckyshare/comm/proto"
 	"github.com/pkg/errors"
 )

@@ -9,7 +9,7 @@ import (
 	"sync/atomic"
 
 	"github.com/miniBamboo/luckyshare/block"
-	"github.com/miniBamboo/luckyshare/co"
+	"github.com/miniBamboo/luckyshare/comm/co"
 	"github.com/miniBamboo/luckyshare/kv"
 	"github.com/miniBamboo/luckyshare/luckyshare"
 	"github.com/miniBamboo/luckyshare/muxdb"

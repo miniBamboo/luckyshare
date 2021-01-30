@@ -16,7 +16,7 @@ import (
 	"github.com/miniBamboo/luckyshare/block"
 	"github.com/miniBamboo/luckyshare/chain"
 	"github.com/miniBamboo/luckyshare/cmd/luckyshare/bandwidth"
-	"github.com/miniBamboo/luckyshare/co"
+	"github.com/miniBamboo/luckyshare/comm/co"
 	"github.com/miniBamboo/luckyshare/genesis"
 	"github.com/miniBamboo/luckyshare/logdb"
 	"github.com/miniBamboo/luckyshare/luckyshare"

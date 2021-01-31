@@ -12,7 +12,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/miniBamboo/luckyshare/comm/stackedmap"
+	"github.com/miniBamboo/luckyshare/common/stackedmap"
 	"github.com/miniBamboo/luckyshare/luckyshare"
 	"github.com/miniBamboo/luckyshare/muxdb"
 )

@@ -15,7 +15,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/miniBamboo/luckyshare/api/node"
 	"github.com/miniBamboo/luckyshare/chain"
-	"github.com/miniBamboo/luckyshare/comm"
+	"github.com/miniBamboo/luckyshare/commu"
 	"github.com/miniBamboo/luckyshare/genesis"
 	"github.com/miniBamboo/luckyshare/muxdb"
 	"github.com/miniBamboo/luckyshare/state"

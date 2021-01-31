@@ -19,7 +19,7 @@ import (
 	"github.com/miniBamboo/luckyshare/block"
 	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/chain"
-	"github.com/miniBamboo/luckyshare/comm/co"
+	"github.com/miniBamboo/luckyshare/common/co"
 	"github.com/miniBamboo/luckyshare/luckyshare"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"

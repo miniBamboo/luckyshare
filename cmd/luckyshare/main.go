@@ -186,7 +186,7 @@ func defaultAction(ctx *cli.Context) error {
 		state.NewStater(mainDB),
 		txPool,
 		logDB,
-		p2pcom.comm,
+		p2pcom.commu,
 		ctx.String(apiCorsFlag.Name),
 		uint32(ctx.Int(apiBacktraceLimitFlag.Name)),
 		uint64(ctx.Int(apiCallGasLimitFlag.Name)),
@@ -220,7 +220,7 @@ func defaultAction(ctx *cli.Context) error {
 		logDB,
 		txPool,
 		filepath.Join(instanceDir, "tx.stash"),
-		p2pcom.comm,
+		p2pcom.commu,
 		uint64(ctx.Int(targetGasLimitFlag.Name)),
 		skipLogs,
 		forkConfig).Run(exitSignal)

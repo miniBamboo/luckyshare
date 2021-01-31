@@ -11,7 +11,7 @@ import (
 	"sync/atomic"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/miniBamboo/luckyshare/comm/metric"
+	"github.com/miniBamboo/luckyshare/common/metric"
 	"github.com/miniBamboo/luckyshare/tx"
 )
 

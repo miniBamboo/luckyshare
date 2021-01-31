@@ -38,8 +38,8 @@ import (
 	"github.com/miniBamboo/luckyshare/api/doc"
 	"github.com/miniBamboo/luckyshare/chain"
 	"github.com/miniBamboo/luckyshare/cmd/luckyshare/node"
-	"github.com/miniBamboo/luckyshare/comm"
-	"github.com/miniBamboo/luckyshare/comm/co"
+	"github.com/miniBamboo/luckyshare/common/co"
+	"github.com/miniBamboo/luckyshare/commu"
 	"github.com/miniBamboo/luckyshare/genesis"
 	"github.com/miniBamboo/luckyshare/logdb"
 	"github.com/miniBamboo/luckyshare/luckyshare"
@@ -400,7 +400,7 @@ func loadNodeMaster(ctx *cli.Context) (*node.Master, error) {
 }
 
 type p2pComm struct {
-	comm           *comm.Communicator
+	commu          *commu.Communicator
 	p2pSrv         *p2psrv.Server
 	peersCachePath string
 	enode          string
@@ -456,7 +456,7 @@ func newP2PComm(ctx *cli.Context, repo *chain.Repository, txPool *txpool.TxPool,
 	}
 
 	return &p2pComm{
-		comm:           comm.New(repo, txPool),
+		commu:          commu.New(repo, txPool),
 		p2pSrv:         p2psrv.New(opts),
 		peersCachePath: peersCachePath,
 		enode:          fmt.Sprintf("enode://%x@[extip]:%v", discover.PubkeyID(&key.PublicKey).Bytes(), ctx.Int(p2pPortFlag.Name)),
@@ -465,16 +465,16 @@ func newP2PComm(ctx *cli.Context, repo *chain.Repository, txPool *txpool.TxPool,
 
 func (p *p2pComm) Start() error {
 	log.Info("starting P2P networking")
-	if err := p.p2pSrv.Start(p.comm.Protocols()); err != nil {
+	if err := p.p2pSrv.Start(p.commu.Protocols()); err != nil {
 		return errors.Wrap(err, "start P2P server")
 	}
-	p.comm.Start()
+	p.commu.Start()
 	return nil
 }
 
 func (p *p2pComm) Stop() {
 	log.Info("stopping communicator...")
-	p.comm.Stop()
+	p.commu.Stop()
 
 	log.Info("stopping P2P server...")
 	p.p2pSrv.Stop()

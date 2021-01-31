@@ -6,12 +6,12 @@
 package node
 
 import (
-	"github.com/miniBamboo/luckyshare/comm"
+	"github.com/miniBamboo/luckyshare/commu"
 	"github.com/miniBamboo/luckyshare/luckyshare"
 )
 
 type Network interface {
-	PeersStats() []*comm.PeerStats
+	PeersStats() []*commu.PeerStats
 }
 
 type PeerStats struct {
@@ -24,7 +24,7 @@ type PeerStats struct {
 	Duration    uint64             `json:"duration"`
 }
 
-func ConvertPeersStats(ss []*comm.PeerStats) []*PeerStats {
+func ConvertPeersStats(ss []*commu.PeerStats) []*PeerStats {
 	if len(ss) == 0 {
 		return nil
 	}

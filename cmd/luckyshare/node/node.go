@@ -21,8 +21,8 @@ import (
 	"github.com/miniBamboo/luckyshare/cache"
 	"github.com/miniBamboo/luckyshare/chain"
 	"github.com/miniBamboo/luckyshare/cmd/luckyshare/bandwidth"
-	"github.com/miniBamboo/luckyshare/comm"
-	"github.com/miniBamboo/luckyshare/comm/co"
+	"github.com/miniBamboo/luckyshare/common/co"
+	"github.com/miniBamboo/luckyshare/commu"
 	"github.com/miniBamboo/luckyshare/consensus"
 	"github.com/miniBamboo/luckyshare/logdb"
 	"github.com/miniBamboo/luckyshare/luckyshare"
@@ -48,7 +48,7 @@ type Node struct {
 	logDB          *logdb.LogDB
 	txPool         *txpool.TxPool
 	txStashPath    string
-	comm           *comm.Communicator
+	commu          *commu.Communicator
 	commitLock     sync.Mutex
 	targetGasLimit uint64
 	skipLogs       bool
@@ -63,7 +63,7 @@ func New(
 	logDB *logdb.LogDB,
 	txPool *txpool.TxPool,
 	txStashPath string,
-	comm *comm.Communicator,
+	commu *commu.Communicator,
 	targetGasLimit uint64,
 	skipLogs bool,
 	forkConfig luckyshare.ForkConfig,
@@ -76,14 +76,14 @@ func New(
 		logDB:          logDB,
 		txPool:         txPool,
 		txStashPath:    txStashPath,
-		comm:           comm,
+		commu:          commu,
 		targetGasLimit: targetGasLimit,
 		skipLogs:       skipLogs,
 	}
 }
 
 func (n *Node) Run(ctx context.Context) error {
-	n.comm.Sync(n.handleBlockStream)
+	n.commu.Sync(n.handleBlockStream)
 
 	n.goes.Go(func() { n.houseKeeping(ctx) })
 	n.goes.Go(func() { n.txStashLoop(ctx) })
@@ -135,8 +135,8 @@ func (n *Node) houseKeeping(ctx context.Context) {
 	var scope event.SubscriptionScope
 	defer scope.Close()
 
-	newBlockCh := make(chan *comm.NewBlockEvent)
-	scope.Track(n.comm.SubscribeBlock(newBlockCh))
+	newBlockCh := make(chan *commu.NewBlockEvent)
+	scope.Track(n.commu.SubscribeBlock(newBlockCh))
 
 	futureTicker := time.NewTicker(time.Duration(luckyshare.BlockInterval) * time.Second)
 	defer futureTicker.Stop()
@@ -161,7 +161,7 @@ func (n *Node) houseKeeping(ctx context.Context) {
 					futureBlocks.Set(newBlock.Header().ID(), newBlock.Block)
 				}
 			} else if isTrunk {
-				n.comm.BroadcastBlock(newBlock.Block)
+				n.commu.BroadcastBlock(newBlock.Block)
 				log.Info(fmt.Sprintf("imported blocks (%v)", stats.processed), stats.LogContext(newBlock.Block.Header())...)
 			}
 		case <-futureTicker.C:
@@ -180,7 +180,7 @@ func (n *Node) houseKeeping(ctx context.Context) {
 					log.Debug("future block consumed", "id", block.Header().ID())
 					futureBlocks.Remove(block.Header().ID())
 					if isTrunk {
-						n.comm.BroadcastBlock(block)
+						n.commu.BroadcastBlock(block)
 					}
 				}
 
@@ -189,7 +189,7 @@ func (n *Node) houseKeeping(ctx context.Context) {
 				}
 			}
 		case <-connectivityTicker.C:
-			if n.comm.PeerCount() == 0 {
+			if n.commu.PeerCount() == 0 {
 				noPeerTimes++
 				if noPeerTimes > 30 {
 					noPeerTimes = 0

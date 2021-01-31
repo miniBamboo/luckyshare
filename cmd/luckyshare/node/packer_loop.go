@@ -26,7 +26,7 @@ func (n *Node) packerLoop(ctx context.Context) {
 	select {
 	case <-ctx.Done():
 		return
-	case <-n.comm.Synced():
+	case <-n.commu.Synced():
 	}
 	log.Info("synchronization process done")
 
@@ -136,7 +136,7 @@ func (n *Node) pack(flow *packer.Flow) error {
 	n.processFork(prevTrunk, curTrunk)
 
 	if prevTrunk.HeadID() != curTrunk.HeadID() {
-		n.comm.BroadcastBlock(newBlock)
+		n.commu.BroadcastBlock(newBlock)
 		log.Info("📦 new block packed",
 			"txs", len(receipts),
 			"mgas", float64(newBlock.Header().GasUsed())/1000/1000,

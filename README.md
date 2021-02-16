@@ -172,7 +172,7 @@ A Special shout out to following projects:
 
 - [VeChain Thor](https://github.com/vechain/thor)
 
-- [Swagger](https://github.com/swagger-api)
+- [Quorum](https://github.com/ConsenSys/quorum)
 
 ## Contributing
 

@@ -1,6 +1,6 @@
 # Luckyshare
 
-A blockchain of luckyshare for everybody to make smart contracts or dApp.
+A blockchain of luckyshare for everybody to make smart contracts or DApp.
 
 This is the first implementation written in golang, now version 0.01, cann't be used now.
 

@@ -1,9 +1,9 @@
 package poal
 
 import (
-	"github.com/miniBamboo/luckyshare/builtin"
-	"github.com/miniBamboo/luckyshare/builtin/authority"
 	"github.com/miniBamboo/luckyshare/luckyshare"
+	sharer "github.com/miniBamboo/luckyshare/sharer"
+	"github.com/miniBamboo/luckyshare/sharer/authority"
 	"github.com/miniBamboo/luckyshare/state"
 )
 
@@ -48,7 +48,7 @@ func (c *Candidates) Pick(state *state.State) ([]Proposer, error) {
 	satisfied := c.satisfied
 	if len(satisfied) == 0 {
 		// re-pick
-		endorsement, err := builtin.Params.Native(state).Get(luckyshare.KeyProposerEndorsement)
+		endorsement, err := sharer.Params.Native(state).Get(luckyshare.KeyProposerEndorsement)
 		if err != nil {
 			return nil, err
 		}

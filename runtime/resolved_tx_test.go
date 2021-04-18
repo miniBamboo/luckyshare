@@ -9,12 +9,12 @@ import (
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/crypto/secp256k1"
-	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/chain"
 	"github.com/miniBamboo/luckyshare/genesis"
 	"github.com/miniBamboo/luckyshare/luckyshare"
 	"github.com/miniBamboo/luckyshare/muxdb"
 	"github.com/miniBamboo/luckyshare/runtime"
+	"github.com/miniBamboo/luckyshare/sharer"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
 	"github.com/stretchr/testify/assert"
@@ -151,7 +151,7 @@ func (tr *testResolvedTransaction) TestBuyGas() {
 		buyGas(txSign(txBuild().Clause(clause().WithValue(big.NewInt(100))))),
 	)
 
-	bind := builtin.Prototype.Native(state).Bind(genesis.DevAccounts()[1].Address)
+	bind := sharer.Prototype.Native(state).Bind(genesis.DevAccounts()[1].Address)
 	bind.SetCreditPlan(math.MaxBig256, big.NewInt(1000))
 	bind.AddUser(genesis.DevAccounts()[0].Address, targetTime)
 	tr.assert.Equal(

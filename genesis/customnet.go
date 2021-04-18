@@ -14,8 +14,8 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/common/math"
 
-	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/luckyshare"
+	sharer "github.com/miniBamboo/luckyshare/sharer"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
 	"github.com/miniBamboo/luckyshare/vm"
@@ -44,7 +44,7 @@ func NewCustomNet(gen *CustomGenesis) (*Genesis, error) {
 	if gen.Params.ExecutorAddress != nil {
 		executor = *gen.Params.ExecutorAddress
 	} else {
-		executor = builtin.Executor.Address
+		executor = sharer.Executor.Address
 	}
 
 	builder := new(Builder).
@@ -58,25 +58,25 @@ func NewCustomNet(gen *CustomGenesis) (*Genesis, error) {
 				}
 			}
 
-			// alloc builtin contracts
-			if err := state.SetCode(builtin.Authority.Address, builtin.Authority.RuntimeBytecodes()); err != nil {
+			// alloc sharer contracts
+			if err := state.SetCode(sharer.Authority.Address, sharer.Authority.RuntimeBytecodes()); err != nil {
 				return err
 			}
-			if err := state.SetCode(builtin.Energy.Address, builtin.Energy.RuntimeBytecodes()); err != nil {
+			if err := state.SetCode(sharer.Energy.Address, sharer.Energy.RuntimeBytecodes()); err != nil {
 				return err
 			}
-			if err := state.SetCode(builtin.Extension.Address, builtin.Extension.RuntimeBytecodes()); err != nil {
+			if err := state.SetCode(sharer.Extension.Address, sharer.Extension.RuntimeBytecodes()); err != nil {
 				return err
 			}
-			if err := state.SetCode(builtin.Params.Address, builtin.Params.RuntimeBytecodes()); err != nil {
+			if err := state.SetCode(sharer.Params.Address, sharer.Params.RuntimeBytecodes()); err != nil {
 				return err
 			}
-			if err := state.SetCode(builtin.Prototype.Address, builtin.Prototype.RuntimeBytecodes()); err != nil {
+			if err := state.SetCode(sharer.Prototype.Address, sharer.Prototype.RuntimeBytecodes()); err != nil {
 				return err
 			}
 
 			if len(gen.Executor.Approvers) > 0 {
-				if err := state.SetCode(builtin.Executor.Address, builtin.Executor.RuntimeBytecodes()); err != nil {
+				if err := state.SetCode(sharer.Executor.Address, sharer.Executor.RuntimeBytecodes()); err != nil {
 					return err
 				}
 			}
@@ -121,10 +121,10 @@ func NewCustomNet(gen *CustomGenesis) (*Genesis, error) {
 				}
 			}
 
-			return builtin.Energy.Native(state, launchTime).SetInitialSupply(tokenSupply, energySupply)
+			return sharer.Energy.Native(state, launchTime).SetInitialSupply(tokenSupply, energySupply)
 		})
 
-	///// initialize builtin contracts
+	///// initialize sharer contracts
 
 	// initialize params
 	bgp := (*big.Int)(gen.Params.BaseGasPrice)
@@ -154,32 +154,32 @@ func NewCustomNet(gen *CustomGenesis) (*Genesis, error) {
 		e = luckyshare.InitialProposerEndorsement
 	}
 
-	data := mustEncodeInput(builtin.Params.ABI, "set", luckyshare.KeyExecutorAddress, new(big.Int).SetBytes(executor[:]))
-	builder.Call(tx.NewClause(&builtin.Params.Address).WithData(data), luckyshare.Address{})
+	data := mustEncodeInput(sharer.Params.ABI, "set", luckyshare.KeyExecutorAddress, new(big.Int).SetBytes(executor[:]))
+	builder.Call(tx.NewClause(&sharer.Params.Address).WithData(data), luckyshare.Address{})
 
-	data = mustEncodeInput(builtin.Params.ABI, "set", luckyshare.KeyRewardRatio, r)
-	builder.Call(tx.NewClause(&builtin.Params.Address).WithData(data), executor)
+	data = mustEncodeInput(sharer.Params.ABI, "set", luckyshare.KeyRewardRatio, r)
+	builder.Call(tx.NewClause(&sharer.Params.Address).WithData(data), executor)
 
-	data = mustEncodeInput(builtin.Params.ABI, "set", luckyshare.KeyBaseGasPrice, bgp)
-	builder.Call(tx.NewClause(&builtin.Params.Address).WithData(data), executor)
+	data = mustEncodeInput(sharer.Params.ABI, "set", luckyshare.KeyBaseGasPrice, bgp)
+	builder.Call(tx.NewClause(&sharer.Params.Address).WithData(data), executor)
 
-	data = mustEncodeInput(builtin.Params.ABI, "set", luckyshare.KeyProposerEndorsement, e)
-	builder.Call(tx.NewClause(&builtin.Params.Address).WithData(data), executor)
+	data = mustEncodeInput(sharer.Params.ABI, "set", luckyshare.KeyProposerEndorsement, e)
+	builder.Call(tx.NewClause(&sharer.Params.Address).WithData(data), executor)
 
 	if len(gen.Authority) == 0 {
 		return nil, errors.New("at least one authority node")
 	}
 	// add initial authority nodes
 	for _, anode := range gen.Authority {
-		data := mustEncodeInput(builtin.Authority.ABI, "add", anode.MasterAddress, anode.EndorsorAddress, anode.Identity)
-		builder.Call(tx.NewClause(&builtin.Authority.Address).WithData(data), executor)
+		data := mustEncodeInput(sharer.Authority.ABI, "add", anode.MasterAddress, anode.EndorsorAddress, anode.Identity)
+		builder.Call(tx.NewClause(&sharer.Authority.Address).WithData(data), executor)
 	}
 
 	if len(gen.Executor.Approvers) > 0 {
 		// add initial approvers
 		for _, approver := range gen.Executor.Approvers {
-			data := mustEncodeInput(builtin.Executor.ABI, "addApprover", approver.Address, approver.Identity)
-			builder.Call(tx.NewClause(&builtin.Executor.Address).WithData(data), executor)
+			data := mustEncodeInput(sharer.Executor.ABI, "addApprover", approver.Address, approver.Identity)
+			builder.Call(tx.NewClause(&sharer.Executor.Address).WithData(data), executor)
 		}
 	}
 

@@ -329,7 +329,7 @@ func New(code string) (*Tracer, error) {
 		costValue:       new(uint),
 		depthValue:      new(uint),
 	}
-	// Set up builtins for this environment
+	// Set up sharers for this environment
 	tracer.vm.PushGlobalGoFunction("toHex", func(ctx *duktape.Context) int {
 		ctx.PushString(hexutil.Encode(popSlice(ctx)))
 		return 1

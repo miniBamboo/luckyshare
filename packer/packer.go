@@ -7,11 +7,11 @@ package packer
 
 import (
 	"github.com/miniBamboo/luckyshare/block"
-	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/chain"
 	"github.com/miniBamboo/luckyshare/consensus/poal"
 	"github.com/miniBamboo/luckyshare/luckyshare"
 	"github.com/miniBamboo/luckyshare/runtime"
+	sharer "github.com/miniBamboo/luckyshare/sharer"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
 	"github.com/miniBamboo/luckyshare/xenv"
@@ -50,13 +50,13 @@ func New(
 func (p *Packer) Schedule(parent *block.Header, nowTimestamp uint64) (flow *Flow, err error) {
 	state := p.stater.NewState(parent.StateRoot())
 
-	// Before process hook of VIP-191, update builtin extension contract's code to V2
+	// Before process hook of VIP-191, update sharer extension contract's code to V2
 	vip191 := p.forkConfig.VIP191
 	if vip191 == 0 {
 		vip191 = 1
 	}
 	if parent.Number()+1 == vip191 {
-		if err := state.SetCode(builtin.Extension.Address, builtin.Extension.V2.RuntimeBytecodes()); err != nil {
+		if err := state.SetCode(sharer.Extension.Address, sharer.Extension.V2.RuntimeBytecodes()); err != nil {
 			return nil, err
 		}
 	}
@@ -66,8 +66,8 @@ func (p *Packer) Schedule(parent *block.Header, nowTimestamp uint64) (flow *Flow
 		features |= tx.DelegationFeature
 	}
 
-	authority := builtin.Authority.Native(state)
-	endorsement, err := builtin.Params.Native(state).Get(luckyshare.KeyProposerEndorsement)
+	authority := sharer.Authority.Native(state)
+	endorsement, err := sharer.Params.Native(state).Get(luckyshare.KeyProposerEndorsement)
 	if err != nil {
 		return nil, err
 	}
@@ -131,14 +131,14 @@ func (p *Packer) Schedule(parent *block.Header, nowTimestamp uint64) (flow *Flow
 func (p *Packer) Mock(parent *block.Header, targetTime uint64, gasLimit uint64) (*Flow, error) {
 	state := p.stater.NewState(parent.StateRoot())
 
-	// Before process hook of VIP-191, update builtin extension contract's code to V2
+	// Before process hook of VIP-191, update sharer extension contract's code to V2
 	vip191 := p.forkConfig.VIP191
 	if vip191 == 0 {
 		vip191 = 1
 	}
 
 	if parent.Number()+1 == vip191 {
-		if err := state.SetCode(builtin.Extension.Address, builtin.Extension.V2.RuntimeBytecodes()); err != nil {
+		if err := state.SetCode(sharer.Extension.Address, sharer.Extension.V2.RuntimeBytecodes()); err != nil {
 			return nil, err
 		}
 	}

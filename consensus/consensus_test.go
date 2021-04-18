@@ -17,12 +17,12 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/miniBamboo/luckyshare/block"
-	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/chain"
 	"github.com/miniBamboo/luckyshare/genesis"
 	"github.com/miniBamboo/luckyshare/luckyshare"
 	"github.com/miniBamboo/luckyshare/muxdb"
 	"github.com/miniBamboo/luckyshare/packer"
+	"github.com/miniBamboo/luckyshare/sharer"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
 	"github.com/stretchr/testify/assert"
@@ -75,12 +75,12 @@ func newTestConsensus(t *testing.T) *testConsensus {
 		Timestamp(launchTime).
 		State(func(state *state.State) error {
 			bal, _ := new(big.Int).SetString("1000000000000000000000000000", 10)
-			state.SetCode(builtin.Authority.Address, builtin.Authority.RuntimeBytecodes())
-			builtin.Params.Native(state).Set(luckyshare.KeyExecutorAddress, new(big.Int).SetBytes(genesis.DevAccounts()[0].Address[:]))
+			state.SetCode(sharer.Authority.Address, sharer.Authority.RuntimeBytecodes())
+			sharer.Params.Native(state).Set(luckyshare.KeyExecutorAddress, new(big.Int).SetBytes(genesis.DevAccounts()[0].Address[:]))
 			for _, acc := range genesis.DevAccounts() {
 				state.SetBalance(acc.Address, bal)
 				state.SetEnergy(acc.Address, bal, launchTime)
-				builtin.Authority.Native(state).Add(acc.Address, acc.Address, luckyshare.Bytes32{})
+				sharer.Authority.Native(state).Add(acc.Address, acc.Address, luckyshare.Bytes32{})
 			}
 			return nil
 		})

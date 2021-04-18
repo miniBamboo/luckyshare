@@ -9,8 +9,8 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/luckyshare"
+	sharer "github.com/miniBamboo/luckyshare/sharer"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
 	"github.com/miniBamboo/luckyshare/xenv"
@@ -99,12 +99,12 @@ func (r *ResolvedTransaction) BuyGas(state *state.State, blockTime uint64) (
 	returnGas func(uint64) error,
 	err error,
 ) {
-	if baseGasPrice, err = builtin.Params.Native(state).Get(luckyshare.KeyBaseGasPrice); err != nil {
+	if baseGasPrice, err = sharer.Params.Native(state).Get(luckyshare.KeyBaseGasPrice); err != nil {
 		return
 	}
 	gasPrice = r.tx.GasPrice(baseGasPrice)
 
-	energy := builtin.Energy.Native(state, blockTime)
+	energy := sharer.Energy.Native(state, blockTime)
 	doReturnGas := func(rgas uint64) (*big.Int, error) {
 		returnedEnergy := new(big.Int).Mul(new(big.Int).SetUint64(rgas), gasPrice)
 		if err := energy.Add(payer, returnedEnergy); err != nil {
@@ -130,7 +130,7 @@ func (r *ResolvedTransaction) BuyGas(state *state.State, blockTime uint64) (
 
 	commonTo := r.CommonTo()
 	if commonTo != nil {
-		binding := builtin.Prototype.Native(state).Bind(*commonTo)
+		binding := sharer.Prototype.Native(state).Bind(*commonTo)
 		var credit *big.Int
 		if credit, err = binding.UserCredit(r.Origin, blockTime); err != nil {
 			return

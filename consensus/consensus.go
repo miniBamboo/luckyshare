@@ -10,8 +10,8 @@ import (
 
 	"github.com/hashicorp/golang-lru/simplelru"
 	"github.com/miniBamboo/luckyshare/block"
-	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/chain"
+	sharer "github.com/miniBamboo/luckyshare/sharer"
 
 	"github.com/miniBamboo/luckyshare/luckyshare"
 	"github.com/miniBamboo/luckyshare/runtime"
@@ -68,9 +68,9 @@ func (c *Consensus) Process(blk *block.Block, nowTimestamp uint64) (*state.Stage
 	if vip191 == 0 {
 		vip191 = 1
 	}
-	// Before process hook of VIP-191, update builtin extension contract's code to V2
+	// Before process hook of VIP-191, update sharer extension contract's code to V2
 	if header.Number() == vip191 {
-		if err := state.SetCode(builtin.Extension.Address, builtin.Extension.V2.RuntimeBytecodes()); err != nil {
+		if err := state.SetCode(sharer.Extension.Address, sharer.Extension.V2.RuntimeBytecodes()); err != nil {
 			return nil, nil, err
 		}
 	}

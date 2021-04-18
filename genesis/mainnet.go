@@ -8,8 +8,8 @@ package genesis
 import (
 	"math/big"
 
-	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/luckyshare"
+	sharer "github.com/miniBamboo/luckyshare/sharer"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
 	"github.com/miniBamboo/luckyshare/vm"
@@ -32,23 +32,23 @@ func NewMainnet() *Genesis {
 				}
 			}
 
-			// alloc builtin contracts
-			if err := state.SetCode(builtin.Authority.Address, builtin.Authority.RuntimeBytecodes()); err != nil {
+			// alloc sharer contracts
+			if err := state.SetCode(sharer.Authority.Address, sharer.Authority.RuntimeBytecodes()); err != nil {
 				return err
 			}
-			if err := state.SetCode(builtin.Energy.Address, builtin.Energy.RuntimeBytecodes()); err != nil {
+			if err := state.SetCode(sharer.Energy.Address, sharer.Energy.RuntimeBytecodes()); err != nil {
 				return err
 			}
-			if err := state.SetCode(builtin.Executor.Address, builtin.Executor.RuntimeBytecodes()); err != nil {
+			if err := state.SetCode(sharer.Executor.Address, sharer.Executor.RuntimeBytecodes()); err != nil {
 				return err
 			}
-			if err := state.SetCode(builtin.Extension.Address, builtin.Extension.RuntimeBytecodes()); err != nil {
+			if err := state.SetCode(sharer.Extension.Address, sharer.Extension.RuntimeBytecodes()); err != nil {
 				return err
 			}
-			if err := state.SetCode(builtin.Params.Address, builtin.Params.RuntimeBytecodes()); err != nil {
+			if err := state.SetCode(sharer.Params.Address, sharer.Params.RuntimeBytecodes()); err != nil {
 				return err
 			}
-			if err := state.SetCode(builtin.Prototype.Address, builtin.Prototype.RuntimeBytecodes()); err != nil {
+			if err := state.SetCode(sharer.Prototype.Address, sharer.Prototype.RuntimeBytecodes()); err != nil {
 				return err
 			}
 
@@ -101,34 +101,34 @@ func NewMainnet() *Genesis {
 				return err
 			}
 
-			return builtin.Energy.Native(state, launchTime).SetInitialSupply(tokenSupply, energySupply)
+			return sharer.Energy.Native(state, launchTime).SetInitialSupply(tokenSupply, energySupply)
 		})
 
-	///// initialize builtin contracts
+	///// initialize sharer contracts
 
 	// initialize params
-	data := mustEncodeInput(builtin.Params.ABI, "set", luckyshare.KeyExecutorAddress, new(big.Int).SetBytes(builtin.Executor.Address[:]))
-	builder.Call(tx.NewClause(&builtin.Params.Address).WithData(data), luckyshare.Address{})
+	data := mustEncodeInput(sharer.Params.ABI, "set", luckyshare.KeyExecutorAddress, new(big.Int).SetBytes(sharer.Executor.Address[:]))
+	builder.Call(tx.NewClause(&sharer.Params.Address).WithData(data), luckyshare.Address{})
 
-	data = mustEncodeInput(builtin.Params.ABI, "set", luckyshare.KeyRewardRatio, luckyshare.InitialRewardRatio)
-	builder.Call(tx.NewClause(&builtin.Params.Address).WithData(data), builtin.Executor.Address)
+	data = mustEncodeInput(sharer.Params.ABI, "set", luckyshare.KeyRewardRatio, luckyshare.InitialRewardRatio)
+	builder.Call(tx.NewClause(&sharer.Params.Address).WithData(data), sharer.Executor.Address)
 
-	data = mustEncodeInput(builtin.Params.ABI, "set", luckyshare.KeyBaseGasPrice, luckyshare.InitialBaseGasPrice)
-	builder.Call(tx.NewClause(&builtin.Params.Address).WithData(data), builtin.Executor.Address)
+	data = mustEncodeInput(sharer.Params.ABI, "set", luckyshare.KeyBaseGasPrice, luckyshare.InitialBaseGasPrice)
+	builder.Call(tx.NewClause(&sharer.Params.Address).WithData(data), sharer.Executor.Address)
 
-	data = mustEncodeInput(builtin.Params.ABI, "set", luckyshare.KeyProposerEndorsement, luckyshare.InitialProposerEndorsement)
-	builder.Call(tx.NewClause(&builtin.Params.Address).WithData(data), builtin.Executor.Address)
+	data = mustEncodeInput(sharer.Params.ABI, "set", luckyshare.KeyProposerEndorsement, luckyshare.InitialProposerEndorsement)
+	builder.Call(tx.NewClause(&sharer.Params.Address).WithData(data), sharer.Executor.Address)
 
 	// add initial authority nodes
 	for _, anode := range initialAuthorityNodes {
-		data := mustEncodeInput(builtin.Authority.ABI, "add", anode.masterAddress, anode.endorsorAddress, anode.identity)
-		builder.Call(tx.NewClause(&builtin.Authority.Address).WithData(data), builtin.Executor.Address)
+		data := mustEncodeInput(sharer.Authority.ABI, "add", anode.masterAddress, anode.endorsorAddress, anode.identity)
+		builder.Call(tx.NewClause(&sharer.Authority.Address).WithData(data), sharer.Executor.Address)
 	}
 
 	// add initial approvers (steering committee)
 	for _, approver := range loadApprovers() {
-		data := mustEncodeInput(builtin.Executor.ABI, "addApprover", approver.address, luckyshare.BytesToBytes32([]byte(approver.identity)))
-		builder.Call(tx.NewClause(&builtin.Executor.Address).WithData(data), builtin.Executor.Address)
+		data := mustEncodeInput(sharer.Executor.ABI, "addApprover", approver.address, luckyshare.BytesToBytes32([]byte(approver.identity)))
+		builder.Call(tx.NewClause(&sharer.Executor.Address).WithData(data), sharer.Executor.Address)
 	}
 
 	var extra [28]byte

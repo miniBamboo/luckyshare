@@ -8,8 +8,8 @@ package genesis
 import (
 	"math/big"
 
-	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/luckyshare"
+	sharer "github.com/miniBamboo/luckyshare/sharer"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
 	"github.com/miniBamboo/luckyshare/vm"
@@ -19,7 +19,7 @@ import (
 func NewTestnet() *Genesis {
 	launchTime := uint64(1530014400) // 'Tue Jun 26 2018 20:00:00 GMT+0800 (CST)'
 
-	// use this address as executor instead of builtin one, for test purpose
+	// use this address as executor instead of sharer one, for test purpose
 	executor := luckyshare.MustParseAddress("0xB5A34b62b63A6f1EE99DFD30b133B657859f8d79")
 	acccount0 := luckyshare.MustParseAddress("0xe59D475Abe695c7f67a8a2321f33A856B0B4c71d")
 
@@ -39,20 +39,20 @@ func NewTestnet() *Genesis {
 				}
 			}
 
-			// setup builtin contracts
-			if err := state.SetCode(builtin.Authority.Address, builtin.Authority.RuntimeBytecodes()); err != nil {
+			// setup sharer contracts
+			if err := state.SetCode(sharer.Authority.Address, sharer.Authority.RuntimeBytecodes()); err != nil {
 				return err
 			}
-			if err := state.SetCode(builtin.Energy.Address, builtin.Energy.RuntimeBytecodes()); err != nil {
+			if err := state.SetCode(sharer.Energy.Address, sharer.Energy.RuntimeBytecodes()); err != nil {
 				return err
 			}
-			if err := state.SetCode(builtin.Params.Address, builtin.Params.RuntimeBytecodes()); err != nil {
+			if err := state.SetCode(sharer.Params.Address, sharer.Params.RuntimeBytecodes()); err != nil {
 				return err
 			}
-			if err := state.SetCode(builtin.Prototype.Address, builtin.Prototype.RuntimeBytecodes()); err != nil {
+			if err := state.SetCode(sharer.Prototype.Address, sharer.Prototype.RuntimeBytecodes()); err != nil {
 				return err
 			}
-			if err := state.SetCode(builtin.Extension.Address, builtin.Extension.RuntimeBytecodes()); err != nil {
+			if err := state.SetCode(sharer.Extension.Address, sharer.Extension.RuntimeBytecodes()); err != nil {
 				return err
 			}
 
@@ -76,24 +76,24 @@ func NewTestnet() *Genesis {
 			}
 			tokenSupply.Add(tokenSupply, amount)
 
-			return builtin.Energy.Native(state, launchTime).SetInitialSupply(tokenSupply, &big.Int{})
+			return sharer.Energy.Native(state, launchTime).SetInitialSupply(tokenSupply, &big.Int{})
 		}).
 		// set initial params
 		// use an external account as executor to manage testnet easily
 		Call(
-			tx.NewClause(&builtin.Params.Address).WithData(mustEncodeInput(builtin.Params.ABI, "set", luckyshare.KeyExecutorAddress, new(big.Int).SetBytes(executor[:]))),
+			tx.NewClause(&sharer.Params.Address).WithData(mustEncodeInput(sharer.Params.ABI, "set", luckyshare.KeyExecutorAddress, new(big.Int).SetBytes(executor[:]))),
 			luckyshare.Address{}).
 		Call(
-			tx.NewClause(&builtin.Params.Address).WithData(mustEncodeInput(builtin.Params.ABI, "set", luckyshare.KeyRewardRatio, luckyshare.InitialRewardRatio)),
+			tx.NewClause(&sharer.Params.Address).WithData(mustEncodeInput(sharer.Params.ABI, "set", luckyshare.KeyRewardRatio, luckyshare.InitialRewardRatio)),
 			executor).
 		Call(
-			tx.NewClause(&builtin.Params.Address).WithData(mustEncodeInput(builtin.Params.ABI, "set", luckyshare.KeyBaseGasPrice, luckyshare.InitialBaseGasPrice)),
+			tx.NewClause(&sharer.Params.Address).WithData(mustEncodeInput(sharer.Params.ABI, "set", luckyshare.KeyBaseGasPrice, luckyshare.InitialBaseGasPrice)),
 			executor).
 		Call(
-			tx.NewClause(&builtin.Params.Address).WithData(mustEncodeInput(builtin.Params.ABI, "set", luckyshare.KeyProposerEndorsement, luckyshare.InitialProposerEndorsement)),
+			tx.NewClause(&sharer.Params.Address).WithData(mustEncodeInput(sharer.Params.ABI, "set", luckyshare.KeyProposerEndorsement, luckyshare.InitialProposerEndorsement)),
 			executor).
 		// add master0 as the initial block proposer
-		Call(tx.NewClause(&builtin.Authority.Address).WithData(mustEncodeInput(builtin.Authority.ABI, "add", master0, endorser0, luckyshare.BytesToBytes32([]byte("master0")))),
+		Call(tx.NewClause(&sharer.Authority.Address).WithData(mustEncodeInput(sharer.Authority.ABI, "add", master0, endorser0, luckyshare.BytesToBytes32([]byte("master0")))),
 			executor)
 
 	id, err := builder.ComputeID()

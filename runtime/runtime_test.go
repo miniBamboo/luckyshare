@@ -13,12 +13,12 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/miniBamboo/luckyshare/abi"
-	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/chain"
 	"github.com/miniBamboo/luckyshare/genesis"
 	"github.com/miniBamboo/luckyshare/luckyshare"
 	"github.com/miniBamboo/luckyshare/muxdb"
 	"github.com/miniBamboo/luckyshare/runtime"
+	"github.com/miniBamboo/luckyshare/sharer"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
 	"github.com/miniBamboo/luckyshare/xenv"
@@ -86,9 +86,9 @@ func TestContractSuicide(t *testing.T) {
 	assert.Equal(t, 1, len(out.Transfers))
 	assert.Equal(t, expectedTransfer, out.Transfers[0])
 
-	event, _ := builtin.Energy.ABI.EventByName("Transfer")
+	event, _ := sharer.Energy.ABI.EventByName("Transfer")
 	expectedEvent := &tx.Event{
-		Address: builtin.Energy.Address,
+		Address: sharer.Energy.Address,
 		Topics:  []luckyshare.Bytes32{event.ID(), luckyshare.BytesToBytes32(addr.Bytes()), luckyshare.BytesToBytes32(origin.Bytes())},
 		Data:    []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100},
 	}
@@ -116,12 +116,12 @@ func TestCall(t *testing.T) {
 
 	rt := runtime.New(repo.NewChain(b0.Header().ID()), state, &xenv.BlockContext{}, luckyshare.NoFork)
 
-	method, _ := builtin.Params.ABI.MethodByName("executor")
+	method, _ := sharer.Params.ABI.MethodByName("executor")
 	data, err := method.EncodeInput()
 	assert.Nil(t, err)
 
 	exec, _ := rt.PrepareClause(
-		tx.NewClause(&builtin.Params.Address).WithData(data),
+		tx.NewClause(&sharer.Params.Address).WithData(data),
 		0, math.MaxUint64, &xenv.TransactionContext{})
 	out, _, err := exec()
 	assert.Nil(t, err)

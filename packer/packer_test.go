@@ -13,13 +13,13 @@ import (
 	"time"
 
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/chain"
 	"github.com/miniBamboo/luckyshare/consensus"
 	"github.com/miniBamboo/luckyshare/genesis"
 	"github.com/miniBamboo/luckyshare/luckyshare"
 	"github.com/miniBamboo/luckyshare/muxdb"
 	"github.com/miniBamboo/luckyshare/packer"
+	"github.com/miniBamboo/luckyshare/sharer"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
 	"github.com/stretchr/testify/assert"
@@ -46,13 +46,13 @@ func (ti *txIterator) Next() *tx.Transaction {
 	a0 := accs[0]
 	a1 := accs[1]
 
-	method, _ := builtin.Energy.ABI.MethodByName("transfer")
+	method, _ := sharer.Energy.ABI.MethodByName("transfer")
 
 	data, _ := method.EncodeInput(a1.Address, big.NewInt(1))
 
 	tx := new(tx.Builder).
 		ChainTag(ti.chainTag).
-		Clause(tx.NewClause(&builtin.Energy.Address).WithData(data)).
+		Clause(tx.NewClause(&sharer.Energy.Address).WithData(data)).
 		Gas(300000).GasPriceCoef(0).Nonce(nonce).Expiration(math.MaxUint32).Build()
 	nonce++
 	sig, _ := crypto.Sign(tx.SigningHash().Bytes(), a0.PrivateKey)
@@ -127,15 +127,15 @@ func TestForkVIP191(t *testing.T) {
 		GasLimit(luckyshare.InitialGasLimit).
 		Timestamp(launchTime).
 		State(func(state *state.State) error {
-			// setup builtin contracts
-			state.SetCode(builtin.Authority.Address, builtin.Authority.RuntimeBytecodes())
-			state.SetCode(builtin.Extension.Address, builtin.Extension.RuntimeBytecodes())
+			// setup sharer contracts
+			state.SetCode(sharer.Authority.Address, sharer.Authority.RuntimeBytecodes())
+			state.SetCode(sharer.Extension.Address, sharer.Extension.RuntimeBytecodes())
 
 			bal, _ := new(big.Int).SetString("1000000000000000000000000000", 10)
 			state.SetBalance(a1.Address, bal)
 			state.SetEnergy(a1.Address, bal, launchTime)
 
-			builtin.Authority.Native(state).Add(a1.Address, a1.Address, luckyshare.BytesToBytes32([]byte{}))
+			sharer.Authority.Native(state).Add(a1.Address, a1.Address, luckyshare.BytesToBytes32([]byte{}))
 			return nil
 		}).
 		Build(stater)
@@ -170,11 +170,11 @@ func TestForkVIP191(t *testing.T) {
 
 	headState := state.New(db, blk.Header().StateRoot())
 
-	assert.Equal(t, M(builtin.Extension.V2.RuntimeBytecodes(), nil), M(headState.GetCode(builtin.Extension.Address)))
+	assert.Equal(t, M(sharer.Extension.V2.RuntimeBytecodes(), nil), M(headState.GetCode(sharer.Extension.Address)))
 
 	geneState := state.New(db, b0.Header().StateRoot())
 
-	assert.Equal(t, M(builtin.Extension.RuntimeBytecodes(), nil), M(geneState.GetCode(builtin.Extension.Address)))
+	assert.Equal(t, M(sharer.Extension.RuntimeBytecodes(), nil), M(geneState.GetCode(sharer.Extension.Address)))
 }
 
 func TestBlocklist(t *testing.T) {

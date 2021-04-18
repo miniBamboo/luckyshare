@@ -11,8 +11,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/miniBamboo/luckyshare/abi"
-	"github.com/miniBamboo/luckyshare/builtin/gen"
 	"github.com/miniBamboo/luckyshare/luckyshare"
+	"github.com/miniBamboo/luckyshare/sharer/gen"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -13,10 +13,10 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/miniBamboo/luckyshare/abi"
-	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/chain"
 	"github.com/miniBamboo/luckyshare/luckyshare"
 	"github.com/miniBamboo/luckyshare/runtime/statedb"
+	sharer "github.com/miniBamboo/luckyshare/sharer"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
 	Tx "github.com/miniBamboo/luckyshare/tx"
@@ -33,10 +33,10 @@ var (
 
 func init() {
 	var found bool
-	if energyTransferEvent, found = builtin.Energy.ABI.EventByName("Transfer"); !found {
+	if energyTransferEvent, found = sharer.Energy.ABI.EventByName("Transfer"); !found {
 		panic("transfer event not found")
 	}
-	if prototypeSetMasterEvent, found = builtin.Prototype.Events().EventByName("$Master"); !found {
+	if prototypeSetMasterEvent, found = sharer.Prototype.Events().EventByName("$Master"); !found {
 		panic("$Master event not found")
 	}
 }
@@ -73,7 +73,7 @@ type TransactionExecutor struct {
 	Finalize      func() (*tx.Receipt, error)
 }
 
-// Runtime bases on EVM and VeChain Thor builtins.
+// Runtime bases on EVM and VeChain Thor sharers.
 type Runtime struct {
 	vmConfig    vm.Config
 	chain       *chain.Chain
@@ -173,7 +173,7 @@ func (rt *Runtime) newEVM(stateDB *statedb.StateDB, clauseIndex uint32, txCtx *x
 				return nil, nil, false
 			}
 
-			abi, run, found := builtin.FindNativeCall(luckyshare.Address(contract.Address()), contract.Input)
+			abi, run, found := sharer.FindNativeCall(luckyshare.Address(contract.Address()), contract.Input)
 			if !found {
 				lastNonNativeCallGas = contract.Gas
 				return nil, nil, false
@@ -189,7 +189,7 @@ func (rt *Runtime) newEVM(stateDB *statedb.StateDB, clauseIndex uint32, txCtx *x
 			}
 
 			// here we return call gas and extcodeSize gas for native calls, to make
-			// builtin contract cheap.
+			// sharer contract cheap.
 			contract.Gas += nativeCallReturnGas
 			if contract.Gas > lastNonNativeCallGas {
 				panic("serious bug: native call returned gas over consumed")
@@ -248,7 +248,7 @@ func (rt *Runtime) newEVM(stateDB *statedb.StateDB, clauseIndex uint32, txCtx *x
 				}
 
 				stateDB.AddLog(&types.Log{
-					Address: common.Address(builtin.Energy.Address),
+					Address: common.Address(sharer.Energy.Address),
 					Topics:  topics,
 					Data:    data,
 				})
@@ -427,7 +427,7 @@ func (rt *Runtime) PrepareTransaction(tx *tx.Transaction) (*TransactionExecutor,
 			}
 
 			// reward
-			rewardRatio, err := builtin.Params.Native(rt.state).Get(luckyshare.KeyRewardRatio)
+			rewardRatio, err := sharer.Params.Native(rt.state).Get(luckyshare.KeyRewardRatio)
 			if err != nil {
 				return nil, err
 			}
@@ -441,7 +441,7 @@ func (rt *Runtime) PrepareTransaction(tx *tx.Transaction) (*TransactionExecutor,
 			reward.Mul(reward, overallGasPrice)
 			reward.Mul(reward, rewardRatio)
 			reward.Div(reward, big.NewInt(1e18))
-			if err := builtin.Energy.Native(rt.state, rt.ctx.Time).Add(rt.ctx.Beneficiary, reward); err != nil {
+			if err := sharer.Energy.Native(rt.state, rt.ctx.Time).Add(rt.ctx.Beneficiary, reward); err != nil {
 				return nil, err
 			}
 

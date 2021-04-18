@@ -17,10 +17,10 @@ import (
 	"github.com/ethereum/go-ethereum/event"
 	"github.com/inconshreveable/log15"
 	"github.com/miniBamboo/luckyshare/block"
-	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/chain"
 	"github.com/miniBamboo/luckyshare/common/co"
 	"github.com/miniBamboo/luckyshare/luckyshare"
+	sharer "github.com/miniBamboo/luckyshare/sharer"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
 )
@@ -359,7 +359,7 @@ func (p *TxPool) wash(headBlock *block.Header) (executables tx.Transactions, rem
 	}()
 
 	state := p.stater.NewState(headBlock.StateRoot())
-	baseGasPrice, err := builtin.Params.Native(state).Get(luckyshare.KeyBaseGasPrice)
+	baseGasPrice, err := sharer.Params.Native(state).Get(luckyshare.KeyBaseGasPrice)
 	if err != nil {
 		return nil, 0, err
 	}

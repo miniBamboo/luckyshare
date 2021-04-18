@@ -9,10 +9,10 @@ import (
 	"fmt"
 
 	"github.com/miniBamboo/luckyshare/block"
-	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/consensus/poal"
 	"github.com/miniBamboo/luckyshare/luckyshare"
 	"github.com/miniBamboo/luckyshare/runtime"
+	sharer "github.com/miniBamboo/luckyshare/sharer"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
 	"github.com/miniBamboo/luckyshare/xenv"
@@ -48,7 +48,7 @@ func (c *Consensus) validate(
 		for _, r := range receipts {
 			for _, o := range r.Outputs {
 				for _, ev := range o.Events {
-					if ev.Address == builtin.Authority.Address {
+					if ev.Address == sharer.Authority.Address {
 						return true
 					}
 				}
@@ -66,7 +66,7 @@ func (c *Consensus) validate(
 			for _, r := range receipts {
 				for _, o := range r.Outputs {
 					for _, ev := range o.Events {
-						if ev.Address == builtin.Params.Address {
+						if ev.Address == sharer.Params.Address {
 							return true
 						}
 					}
@@ -121,7 +121,7 @@ func (c *Consensus) validateProposer(header *block.Header, parent *block.Header,
 		return nil, consensusError(fmt.Sprintf("block signer unavailable: %v", err))
 	}
 
-	authority := builtin.Authority.Native(st)
+	authority := sharer.Authority.Native(st)
 	var candidates *poal.Candidates
 	if entry, ok := c.candidatesCache.Get(parent.ID()); ok {
 		candidates = entry.(*poal.Candidates).Copy()

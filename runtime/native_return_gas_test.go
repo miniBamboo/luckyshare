@@ -4,9 +4,9 @@ import (
 	"math"
 	"testing"
 
-	"github.com/miniBamboo/luckyshare/builtin"
 	"github.com/miniBamboo/luckyshare/luckyshare"
 	"github.com/miniBamboo/luckyshare/muxdb"
+	sharer "github.com/miniBamboo/luckyshare/sharer"
 	"github.com/miniBamboo/luckyshare/state"
 	"github.com/miniBamboo/luckyshare/tx"
 	"github.com/miniBamboo/luckyshare/xenv"
@@ -16,15 +16,15 @@ import (
 func TestNativeCallReturnGas(t *testing.T) {
 	db := muxdb.NewMem()
 	state := state.New(db, luckyshare.Bytes32{})
-	state.SetCode(builtin.Measure.Address, builtin.Measure.RuntimeBytecodes())
+	state.SetCode(sharer.Measure.Address, sharer.Measure.RuntimeBytecodes())
 
-	inner, _ := builtin.Measure.ABI.MethodByName("inner")
+	inner, _ := sharer.Measure.ABI.MethodByName("inner")
 	innerData, _ := inner.EncodeInput()
-	outer, _ := builtin.Measure.ABI.MethodByName("outer")
+	outer, _ := sharer.Measure.ABI.MethodByName("outer")
 	outerData, _ := outer.EncodeInput()
 
 	exec, _ := New(nil, state, &xenv.BlockContext{}, luckyshare.NoFork).PrepareClause(
-		tx.NewClause(&builtin.Measure.Address).WithData(innerData),
+		tx.NewClause(&sharer.Measure.Address).WithData(innerData),
 		0,
 		math.MaxUint64,
 		&xenv.TransactionContext{})
@@ -34,7 +34,7 @@ func TestNativeCallReturnGas(t *testing.T) {
 	assert.Nil(t, innerOutput.VMErr)
 
 	exec, _ = New(nil, state, &xenv.BlockContext{}, luckyshare.NoFork).PrepareClause(
-		tx.NewClause(&builtin.Measure.Address).WithData(outerData),
+		tx.NewClause(&sharer.Measure.Address).WithData(outerData),
 		0,
 		math.MaxUint64,
 		&xenv.TransactionContext{})

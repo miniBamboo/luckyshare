@@ -172,7 +172,7 @@ Once `luckyshare` started, online *OpenAPI* doc can be accessed in your browser.
 
 - [唯链雷神](https://github.com/vechain/thor)
 
-- [Swagger](https://github.com/swagger-api)
+- [Quorum](https://github.com/ConsenSys/quorum)
 
 ## Contributing
 

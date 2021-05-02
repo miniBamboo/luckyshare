@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/miniBamboo/luckyshare/co"
+	"github.com/miniBamboo/luckyshare/common/co"
 )
 
 func TestParallel(t *testing.T) {

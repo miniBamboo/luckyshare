@@ -8,7 +8,7 @@ package stackedmap_test
 import (
 	"testing"
 
-	"github.com/miniBamboo/luckyshare/stackedmap"
+	"github.com/miniBamboo/luckyshare/common/stackedmap"
 	"github.com/stretchr/testify/assert"
 )
 

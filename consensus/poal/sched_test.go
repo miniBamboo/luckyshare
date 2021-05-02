@@ -8,8 +8,8 @@ package poal_test
 import (
 	"testing"
 
+	"github.com/miniBamboo/luckyshare/consensus/poal"
 	"github.com/miniBamboo/luckyshare/luckyshare"
-	"github.com/miniBamboo/luckyshare/poal"
 	"github.com/stretchr/testify/assert"
 )
 

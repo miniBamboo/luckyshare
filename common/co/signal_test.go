@@ -8,7 +8,7 @@ package co_test
 import (
 	"testing"
 
-	"github.com/miniBamboo/luckyshare/co"
+	"github.com/miniBamboo/luckyshare/common/co"
 	"github.com/stretchr/testify/assert"
 )
 

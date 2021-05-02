@@ -45,7 +45,7 @@ func initCommServer(t *testing.T) {
 		t.Fatal(err)
 	}
 	repo, _ := chain.NewRepository(db, b)
-	comm := comm.New(repo, txpool.New(repo, stater, txpool.Options{
+	comm := commu.New(repo, txpool.New(repo, stater, txpool.Options{
 		Limit:           10000,
 		LimitPerAccount: 16,
 		MaxLifetime:     10 * time.Minute,
